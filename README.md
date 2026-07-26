@@ -122,12 +122,12 @@ The notification email includes claim details and two styled call-to-action butt
 
 ## 👤 About the Author
 
-**Syed Ali Raza** — Finance & Accounts professional (10+ years) across treasury operations, tax compliance (US/UK/Pakistan), FP&A, and bookkeeping, now pursuing an MBA in Finance and CMA USA. Currently combining this finance background with automation and AI tooling (n8n, APIs, LLMs) to build practical Finance Automation, FP&A, and Accounting Systems solutions.
+**Ali** — Finance & Accounts professional (10+ years) across treasury operations, tax compliance (US/UK/Pakistan), FP&A, and bookkeeping, now pursuing an MBA in Finance and CMA USA. Currently combining this finance background with automation and AI tooling (n8n, APIs, LLMs) to build practical Finance Automation, FP&A, and Accounting Systems solutions.
 
 📩 Open to remote opportunities in **Finance Automation / FP&A / Accounting Systems** — let's connect if you're hiring or working on similar problems.
 
-- 💼 LinkedIn: [https://www.linkedin.com/in/syed-ali-raza1990/]
-- 📧 Email: [Alisherazi51215@Yahoo.Com]
-- 🧑‍💻 Upwork: [upwork.com/freelancers/syedaliraza73]
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/syed-ali-raza1990/)
+[![Email](https://img.shields.io/badge/Email-Contact-D14836?logo=gmail&logoColor=white)](mailto:Alisherazi51215@yahoo.com)
+[![Upwork](https://img.shields.io/badge/Upwork-Hire%20Me-6FDA44?logo=upwork&logoColor=white)](https://www.upwork.com/freelancers/syedaliraza73)
 
 *Built as part of a Finance Automation portfolio, combining 10+ years of Finance & Accounts experience with modern automation tooling.*

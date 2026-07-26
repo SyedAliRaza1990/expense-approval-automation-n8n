@@ -118,4 +118,16 @@ The notification email includes claim details and two styled call-to-action butt
 - Bank Reconciliation Automation (n8n)
 - AI-Powered AP Invoice Processing (n8n + PDF.co + Gemini)
 
+---
+
+## 👤 About the Author
+
+**Syed Ali Raza** — Finance & Accounts professional (10+ years) across treasury operations, tax compliance (US/UK/Pakistan), FP&A, and bookkeeping, now pursuing an MBA in Finance and CMA USA. Currently combining this finance background with automation and AI tooling (n8n, APIs, LLMs) to build practical Finance Automation, FP&A, and Accounting Systems solutions.
+
+📩 Open to remote opportunities in **Finance Automation / FP&A / Accounting Systems** — let's connect if you're hiring or working on similar problems.
+
+- 💼 LinkedIn: [https://www.linkedin.com/in/syed-ali-raza1990/]
+- 📧 Email: [Alisherazi51215@Yahoo.Com]
+- 🧑‍💻 Upwork: [upwork.com/freelancers/syedaliraza73]
+
 *Built as part of a Finance Automation portfolio, combining 10+ years of Finance & Accounts experience with modern automation tooling.*

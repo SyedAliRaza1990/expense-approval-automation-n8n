@@ -1,0 +1,607 @@
+{
+  "name": "Expense Management & Employee Reimbursement Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -496,
+        -48
+      ],
+      "id": "a09b5338-0551-42ed-8c7e-575f4bee627b",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1XLFS5pkZ4RbNAmA7pKMk_7D0MfGrtocjhPdCIF3I3us",
+          "mode": "list",
+          "cachedResultName": "Expense Management & Employee Reimbursement",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1XLFS5pkZ4RbNAmA7pKMk_7D0MfGrtocjhPdCIF3I3us/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Expense Claims",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1XLFS5pkZ4RbNAmA7pKMk_7D0MfGrtocjhPdCIF3I3us/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -256,
+        -48
+      ],
+      "id": "ea48eb5f-d79e-45b7-93f4-0b104b0c8afd",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "oyVM3B0KNS3meEc0",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "664e4ace-e26f-44d6-9c87-5b7f06572d03",
+              "leftValue": "={{ $json.Status }}",
+              "rightValue": "Pending",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        -64,
+        -48
+      ],
+      "id": "75d06b52-9730-4710-ace8-31d75d3f3bb5",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "sendTo": "sheraziali42@gmail.com",
+        "subject": "=New Expense Claim Approval Needed - {{ $json.Claim_ID }}",
+        "message": "=<p>Hi Manager,</p>\n<p>A new expense claim is pending for your review and approval:</p>\n\n<ul>\n  <li><strong>Claim ID:</strong> {{ $json.Claim_ID }}</li>\n  <li><strong>Row Number:</strong> {{ $json.row_number }}</li>\n</ul>\n\n<p>Please click an option below:</p>\n\n<!-- Approve Button -->\n<a href=\"https://sherazi914.app.n8n.cloud/webhook/approve-claim?row_number={{ $json.row_number }}&action=Approved\" \n   style=\"background-color: #28a745; color: white; padding: 10px 18px; text-decoration: none; border-radius: 4px; font-weight: bold; display: inline-block;\">\n   ✅ Approve\n</a>\n\n&nbsp;&nbsp;\n\n<!-- Reject Button -->\n<a href=\"https://sherazi914.app.n8n.cloud/webhook/approve-claim?row_number={{ $json.row_number }}&action=Rejected\" \n   style=\"background-color: #dc3545; color: white; padding: 10px 18px; text-decoration: none; border-radius: 4px; font-weight: bold; display: inline-block;\">\n   ❌ Reject\n</a>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        144,
+        -48
+      ],
+      "id": "edd983dc-0c9b-4bfc-8a32-1507d1a8bfab",
+      "name": "Send a message",
+      "webhookId": "96a1273f-70c5-48bd-83df-de92fd74af79",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "b7Pn1KhL2L180c2Q",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1XLFS5pkZ4RbNAmA7pKMk_7D0MfGrtocjhPdCIF3I3us",
+          "mode": "list",
+          "cachedResultName": "Expense Management & Employee Reimbursement",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1XLFS5pkZ4RbNAmA7pKMk_7D0MfGrtocjhPdCIF3I3us/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Expense Claims",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1XLFS5pkZ4RbNAmA7pKMk_7D0MfGrtocjhPdCIF3I3us/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Claim_ID": "={{ $('Get row(s) in sheet').item.json.Claim_ID }}",
+            "row_number": "={{ $('Get row(s) in sheet').item.json.row_number }}",
+            "Status": "In Review"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Claim_ID",
+              "displayName": "Claim_ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Employee_Name",
+              "displayName": "Employee_Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Employee_Email",
+              "displayName": "Employee_Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Department",
+              "displayName": "Department",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Expense_Date",
+              "displayName": "Expense_Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Category",
+              "displayName": "Category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Amount",
+              "displayName": "Amount",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Currency",
+              "displayName": "Currency",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Description",
+              "displayName": "Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Receipt_URL",
+              "displayName": "Receipt_URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Manager",
+              "displayName": "Manager",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Approval_Date",
+              "displayName": "Approval_Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        368,
+        -48
+      ],
+      "id": "c9533ed1-45dc-4810-b1ab-a63976e8a081",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "oyVM3B0KNS3meEc0",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "path": "approve-claim",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        160
+      ],
+      "id": "3a9bd380-cbd1-40a6-b475-f29f986bc906",
+      "name": "Webhook",
+      "webhookId": "03d88e18-5945-40ec-ac79-504d972a87bc"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1XLFS5pkZ4RbNAmA7pKMk_7D0MfGrtocjhPdCIF3I3us",
+          "mode": "list",
+          "cachedResultName": "Expense Management & Employee Reimbursement",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1XLFS5pkZ4RbNAmA7pKMk_7D0MfGrtocjhPdCIF3I3us/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Expense Claims",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1XLFS5pkZ4RbNAmA7pKMk_7D0MfGrtocjhPdCIF3I3us/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "row_number": "={{ $json.query.row_number }}",
+            "Status": "={{ $json.query.action }}"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Claim_ID",
+              "displayName": "Claim_ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Employee_Name",
+              "displayName": "Employee_Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Employee_Email",
+              "displayName": "Employee_Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Department",
+              "displayName": "Department",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Expense_Date",
+              "displayName": "Expense_Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Category",
+              "displayName": "Category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Amount",
+              "displayName": "Amount",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Currency",
+              "displayName": "Currency",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Description",
+              "displayName": "Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Receipt_URL",
+              "displayName": "Receipt_URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Manager",
+              "displayName": "Manager",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Approval_Date",
+              "displayName": "Approval_Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        224,
+        160
+      ],
+      "id": "40b04b2c-3e97-4c0e-a5cb-bd7e35e488dc",
+      "name": "Update row in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "oyVM3B0KNS3meEc0",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "=<div style=\"font-family: Arial, sans-serif; text-align: center; padding: 40px;\">\n  <h2 style=\"color: #28a745;\">Response Recorded!</h2>\n  <p>Expense claim status has been updated to <strong>{{ $json.query.action }}</strong>.</p>\n  <p>You can close this tab now.</p>\n</div>",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        432,
+        160
+      ],
+      "id": "c60c7c28-a904-4bd0-aa2d-b8815725687a",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row in sheet1": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "94c22ed5-3e9f-43f3-89eb-0e0a2b28d01a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "fdbda443cf38804f4b7391778895a877dba9b9fc07be8df10733cccfc464fcd4"
+  },
+  "nodeGroups": [],
+  "id": "511JXLaWO50pOSYU",
+  "tags": []
+}
